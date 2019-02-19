@@ -1,2 +1,2 @@
 # setup-scripts
-Configs and scripts for develop.
+Configs and scripts for development.
