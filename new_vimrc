@@ -1,19 +1,15 @@
+" Fisa-vim-config
+" http://fisadev.github.io/fisa-vim-config/
+" version: 8.3.1
+
 " ============================================================================
 " Vim-plug initialization
 " Avoid modify this section, unless you are very sure of what you are doing
 
-let vim_plug_just_installed = 0
 let vim_plug_path = expand('~/.vim/autoload/plug.vim')
 if !filereadable(vim_plug_path)
-    echo "Installing Vim-plug..."
-    echo ""
     silent !mkdir -p ~/.vim/autoload
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    let vim_plug_just_installed = 1
-endif
-
-" manually load vim-plug the first time
-if vim_plug_just_installed
     :execute 'source '.fnameescape(vim_plug_path)
 endif
 
@@ -29,64 +25,43 @@ call plug#begin('~/.vim/plugged')
 
 " Plugins from github repos:
 
+" Git integration
+" Plug 'airblade/vim-gitgutter'
+" Color scheme
+Plug 'altercation/vim-colors-solarized'
 " Better file browser
 Plug 'scrooloose/nerdtree'
-" Code commenter
-Plug 'scrooloose/nerdcommenter'
 " Class/module browser
 Plug 'majutsushi/tagbar'
 " Code and files fuzzy finder
 Plug 'ctrlpvim/ctrlp.vim'
 " Extension to ctrlp, for fuzzy command finder
 Plug 'fisadev/vim-ctrlp-cmdpalette'
-" Git integration
-Plug 'motemen/git-vim'
 " Tab list panel
 Plug 'kien/tabman.vim'
 " Surround
 Plug 'tpope/vim-surround'
 " Autoclose
 Plug 'Townk/vim-autoclose'
+" Indent text object
+Plug 'michaeljsmith/vim-indent-object'
+" Indentation based movements
+Plug 'jeetsukumaran/vim-indentwise'
 " Python autocompletion, go to definition.
 Plug 'davidhalter/jedi-vim'
 " Better autocompletion
 " Plug 'Shougo/neocomplcache.vim'
-" Plug 'Shougo/neocomplete.vim'
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
-" Git/mercurial/others diff icons on the side of the file lines
-Plug 'mhinz/vim-signify'
 " Window chooser
 Plug 't9md/vim-choosewin'
-" Python and other languages code checker
-" Plug 'scrooloose/syntastic'
-if has('python')
-    " YAPF formatter for Python
-    Plug 'pignacio/vim-yapf-format'
-endif
+" Asynchronous Lint Engine
+Plug 'w0rp/ale'
 
 " Tell vim-plug we finished declaring plugins, so it can load them
 call plug#end()
 
 " ============================================================================
-" Install plugins the first time vim runs
-
-if vim_plug_just_installed
-    echo "Installing Bundles, please ignore key map error messages"
-    :PlugInstall
-endif
-
-" ============================================================================
 " Vim settings and mappings
 " You can edit them as you wish
-
-set rtp+=$HOME/.local/lib/python3.6/site-packages/powerline/bindings/vim
 
 " no vi-compatible
 set nocompatible
@@ -100,11 +75,6 @@ set expandtab
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-
-" tab length exceptions on some file types
-autocmd FileType html setlocal shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType htmldjango setlocal shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType javascript setlocal shiftwidth=4 tabstop=4 softtabstop=4
 
 " always show status bar
 set ls=2
@@ -156,8 +126,11 @@ ca w!! w !sudo tee "%"
 nmap ,r :Ack 
 nmap ,wr :Ack <cword><CR>
 
-set t_Co=256
-colorscheme desert 
+" Set corlorscheme
+let &t_Co = 256
+syntax enable
+set background=dark
+colorscheme solarized
 
 " when scrolling, keep cursor 3 lines away from screen border
 set scrolloff=3
@@ -191,6 +164,9 @@ endif
 " Plugins settings and mappings
 " Edit them as you wish.
 
+" Powerline --------------------------
+set rtp+=$HOME/.local/lib/python3.6/site-packages/powerline/bindings/vim
+
 " Tagbar ----------------------------- 
 
 " toggle tagbar display
@@ -206,12 +182,6 @@ map <F3> :NERDTreeToggle<CR>
 nmap ,t :NERDTreeFind<CR>
 " don;t show these file types
 let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
-
-
-" Tasklist ------------------------------
-
-" show pending tasks list
-map <F2> :TaskList<CR>
 
 " CtrlP ------------------------------
 
@@ -275,6 +245,27 @@ let g:jedi#goto_assignments_command = ',a'
 " Go to definition in new tab
 nmap ,D :tab split<CR>:call jedi#goto()<CR>
 
+" NeoComplCache ------------------------------
+
+" most of them not documented because I'm not sure how they work
+" (docs aren't good, had to do a lot of trial and error to make 
+" it play nice)
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_ignore_case = 1
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_enable_fuzzy_completion = 1
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_fuzzy_completion_start_length = 1
+let g:neocomplcache_auto_completion_start_length = 1
+let g:neocomplcache_manual_completion_start_length = 1
+let g:neocomplcache_min_keyword_length = 1
+let g:neocomplcache_min_syntax_length = 1
+" complete with workds from any opened file
+let g:neocomplcache_same_filetype_lists = {}
+let g:neocomplcache_same_filetype_lists._ = '_'
+
 " TabMan ------------------------------
 
 " mappings to toggle display, and to focus on it
@@ -319,5 +310,11 @@ nmap  -  <Plug>(choosewin)
 " show big letters
 let g:choosewin_overlay_enable = 1
 
-" Deoplete ----------------------------------
-let g:deoplete#enable_at_startup = 1
+" ale ----------------------------------
+let g:ale_linters = {
+\    'c++': ['clang'],
+\    'c': ['clang'],
+\    'python': ['pylint'],
+\}
+
+" YouCompleteMe ---------------------
