@@ -1,0 +1,453 @@
+" ============================================================================
+" Vim-plug initialization
+" Avoid modify this section, unless you are very sure of what you are doing
+
+let vim_plug_path = expand('~/.vim/autoload/plug.vim')
+if !filereadable(vim_plug_path)
+    silent !mkdir -p ~/.vim/autoload
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    :execute 'source '.fnameescape(vim_plug_path)
+endif
+
+" ============================================================================
+" Active plugins
+call plug#begin('~/.vim/plugged')
+
+" Plug 'airblade/vim-gitgutter'  " Git integration
+" Plug 'yianwillis/vimcdoc'  " Vim Document in Chinese
+Plug 'vim-scripts/mru.vim'  " Most Recently Used files
+
+" Color Scheme
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'altercation/vim-colors-solarized'
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }  " Better file browser
+Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }  " Class/module browser
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
+Plug 'skywind3000/vim-preview'  " Preview window
+
+Plug 'vim-scripts/genutils'
+Plug 'vim-scripts/lookupfile'  " Search file (depend on genutils)
+
+Plug 'tpope/vim-surround'  " Surround
+Plug 'Townk/vim-autoclose'  " Autoclose
+Plug 't9md/vim-choosewin'  " Window chooser
+
+Plug 'michaeljsmith/vim-indent-object'  " Indent text object
+Plug 'jeetsukumaran/vim-indentwise'  " Indentation based movements
+
+" Auto Complete
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer',
+            \ 'for': ['s', 'S', 'c', 'h', 'C', 'cpp', 'cc', 'cxx', 'py', 'go', 'java', 'js', 'php', 'sh', 'conf', 'vimrc', 'bashrc', 'config', 'ini'] }
+
+" Asynchronous Lint Engine
+Plug 'w0rp/ale', { 'for': ['s', 'S', 'c', 'h', 'C', 'cpp', 'cc', 'cxx', 'py', 'go', 'java', 'js', 'php', 'sh', 'conf', 'vimrc', 'bashrc', 'config', 'ini'] }  
+
+call plug#end()
+
+" ============================================================================
+" Vim settings
+
+" Encode ----------------------------------------
+set fileencodings=utf-8,gb2312,gbk,cp936,latin-1
+set fileencoding=utf-8
+set termencoding=utf-8
+set encoding=utf-8
+set fileformat=unix
+
+" UI --------------------------------------------
+syntax on  " syntax highlight on
+set t_Co=256
+set background=dark
+colorscheme solarized
+" set cursorline  " highlight cursor line
+" highlight CursorLine cterm=Bold ctermbg=Black ctermfg=NONE guibg=Black guifg=NONE
+
+" Basic Config ----------------------------------
+set nocompatible  " no vi-compatible
+filetype plugin on  " allow plugins by file type (required for plugins!)
+filetype indent on
+
+set ls=2  " always show status bar
+set number  " show line numbers
+set showcmd  " show cmd in the bottom
+set showmatch  " highlight matched parenthese automatically
+set scrolloff=3  " when scrolling, keep cursor * lines away from screen border horizontally
+set sidescrolloff=3  " keep cursor * lines away from screen border vertically
+set nobackup  " Don't create backup file
+set noerrorbells " No bells when error
+
+set history=1024  " history buffer size
+set autoread  " Prompt if the file being edited is modified externally
+set autowrite  " auto save
+
+set incsearch  " incremental search
+set hlsearch  " highlighted search results
+set ignorecase
+set smartcase
+
+" Editor -------------------------------------
+set expandtab  " replace tab with spaces
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
+set autoindent
+set smartindent
+
+set backspace=indent,eol,start  " use backspace to delete
+set whichwrap=h,l  " use h/l to move to previous/next line
+
+set complete=.,w,b,u,t,i,d
+set completeopt=longest,menuone
+set pumheight=10  " The number of items to show
+
+set wildmenu
+set wildmode=longest:list,full
+
+set tags=./tags;
+" ============================================
+" Auto Command
+
+" 打开文件光标自动跳转到上次关闭时的位置
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \     exe "normal g'\"" |
+    \ endif ""
+
+" ===========================================
+" Key mappings
+
+let mapleader=' '  " Leader
+
+" enter command mode with semicolon
+nnoremap ; :  
+vnoremap ; :
+
+" Switch in windows
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+inoremap <C-h> <Esc><C-w>h
+inoremap <C-j> <Esc><C-w>j
+inoremap <C-k> <Esc><C-w>k
+inoremap <C-l> <Esc><C-w>l
+
+" Resize Window
+nnoremap <Leader>+ :resize +1<cr>
+nnoremap <Leader>_ :resize -1<cr>
+nnoremap + :vertical resize +1<cr>
+nnoremap _ :vertical resize -1<cr> 
+
+" tab navigation mappings
+map tn :tabn<CR>
+map tp :tabp<CR>
+map tm :tabm 
+map tt :tabnew 
+map ts :tab split<CR>
+
+" shell命令调用函数
+function! RunShell(Msg, Shell)
+    echo a:Msg . '...'
+    call system(a:Shell)
+    echon 'done'
+endfunction
+
+" vimgrep查找字符串
+nmap <F6> :vimgrep /<C-R>=expand("<cword>")<cr>/ **/*.py<cr><C-o>:cw<cr>
+" 生成filename.tags快捷键F7
+nmap <F7> :call RunShell("Generate filename.tags", "genftag.sh")<cr>
+" 生成GTAGS数据库文件快捷键F8
+" nmap <F8> :call RunShell("Generate GTAGS.*", 'find . -name "*.[chsS]" -o -name "*.cpp" -o -name "*.cc" -o -name "*.C", -o -name "*.cxx"> gtags.files && gtags')<cr>
+" 生成tags文件快捷键F9
+nmap <F9> :call RunShell("Generate tags", "ctags -R --c-kinds=+lpxzL --c++-kinds=+lpxzLANU --fields=+niazS --extras=+q --output-format=e-ctags")<cr>
+
+" ============================================================================
+" Plugins settings and mappings
+
+" Powerline
+" -----------------------------------------------------------------------------
+" set rtp+=$HOME/.local/lib/python3.6/site-packages/powerline/bindings/vim
+
+" mru.vim
+" -----------------------------------------------------------------------------
+nmap <F4> :MRU<cr>  " Use F4 to open mru
+
+" lookupfile.vim
+" -----------------------------------------------------------------------------
+" 映射LookupFile快捷键
+nmap <Leader>lt :LUTags<cr>
+" 映射LUBufs快捷键
+nmap <Leader>lb :LUBufs<cr>
+" 映射LUWalk快捷键
+nmap <Leader>lw :LUWalk<cr>
+" 最少输入2个字符才开始查找
+let g:LookupFile_MinPatLength=2
+" 不保存上次查找的字符串
+let g:LookupFile_PreserveLastPattern=0
+" 保存查找历史
+let g:LookupFile_PreservePatternHistory=1
+" 回车打开第一个匹配项目
+let g:LookupFile_AlwaysAcceptFirst=1
+" 不允许创建不存在的文件
+let g:LookupFile_AllowNewFiles=0
+" 关闭对搜索结果的字母排序
+let g:LookupFile_SortMethod=""
+" 向上递归查找tags文件
+let g:filename_tags=findfile("filename.tags", ".;")
+" 设置tags文件
+if filereadable(g:filename_tags)
+    let g:LookupFile_TagExpr='"'.g:filename_tags.'"'
+endif
+" 查找忽略大小写
+function! LookupFile_IgnoreCaseFunc(pattern)
+    let _tags = &tags
+    try
+        let &tags = eval(g:LookupFile_TagExpr)
+        let newpattern = '\c' . a:pattern
+        let tags = taglist(newpattern)
+    catch
+        echohl ErrorMsg | echo "Exception: " . v:exception | echohl NONE
+        return ""
+    finally
+        let &tags = _tags
+    endtry
+
+    " Show the matches for what is typed so far.
+    let files = map(tags, 'v:val["filename"]')
+    return files
+endfunction
+let g:LookupFile_LookupFunc = 'LookupFile_IgnoreCaseFunc'   "'  "
+
+" taglist.vim
+" -----------------------------------------------------------------------------
+" 设置打开关闭快捷键F2 
+nmap  <F2> :TlistToggle<cr>
+" 自动更新tags列表
+let g:Tlist_Auto_Update=1
+" 始终解析文件中的tag,不管taglist窗口有没有打开
+let g:Tlist_Process_File_Always=1
+" 当taglist窗口是最后一个窗口时退出vim
+let g:Tlist_Exit_OnlyWindow=1
+" 只显示一个文件的tags
+let g:Tlist_Show_One_File=1
+" 窗口宽度
+let g:Tlist_WinWidth=30
+" 只显示当前文件的tags
+let g:Tlist_Enable_Fold_Column=0
+" 高亮显示当前tag
+let g:Tlist_Auto_Highlight_Tag=1
+" 设置窗口显示在右侧
+"let g:Tlist_Use_Right_Window=1
+" 打开时光标定位于taglist窗口
+let g:Tlist_GainFocus_On_ToggleOpen=1
+
+" NERDTree.vim
+" -----------------------------------------------------------------------------
+" 设置打开关闭快捷键F3
+nmap  <F3> :NERDTreeToggle<cr>
+" 窗口美化
+let NERDChristmasTree=1
+" 自动调整光标到窗口中心
+let NERDTreeAutoCenter=1
+" 指定鼠标模式(1.双击打开;2.单目录双文件;3.单击打开)
+let NERDTreeMouseMode=2
+" 默认显示文件
+let NERDTreeShowFiles=1
+" 默认显示隐藏文件
+let NERDTreeShowHidden=1
+" 窗口位置（'left' or 'right'）
+let g:NERDTreeWinPos="right"
+" 窗口宽度
+let g:NERDTreeWinSize=30
+" 显示行号
+let g:NERDTreeShowLineNumbers=1
+" 打开文件后关闭NERDTree窗口
+let g:NERDTreeQuitOnOpen=1
+" 高亮显示当前行目录或文件
+let NERDTreeHightCursorline=1
+" open nerdtree with the current file selected
+nmap ,t :NERDTreeFind<CR>
+" don;t show these file types
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+
+" gutentags.vim && gutentags_plus.vim
+" -----------------------------------------------------------------------------
+" 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
+" 所生成的数据文件的名称 "
+let g:gutentags_ctags_tagfile = '.tags'
+" tags模式设置
+let g:gutentags_modules = []
+if executable('ctags')
+    let g:gutentags_modules += ['ctags']
+endif
+" 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录 "
+let s:vim_tags = expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
+" 检测 ~/.cache/tags 不存在就新建 "
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
+" 配置ctags的参数 "
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extras=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+lpxzLANU']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+lpxzL']
+" 如果使用universal ctags需要增加下面一行
+let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+" 禁用 gutentags 自动加载 gtags 数据库的行为
+" 避免多个项目数据库相互干扰
+" 使用plus插件解决问题
+let g:gutentags_auto_add_gtags_cscope = 0
+
+" vim-preview.vim
+" -----------------------------------------------------------------------------
+" p预览 大P关闭
+autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
+autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
+noremap <Leader>u :PreviewScroll -1<cr> " 往上滚动预览窗口
+noremap <Leader>d :PreviewScroll +1<cr> "  往下滚动预览窗口
+
+" Window Chooser ------------------------------
+
+" mapping
+nmap  -  <Plug>(choosewin)
+" show big letters
+let g:choosewin_overlay_enable = -1
+
+" YouCompleteMe.vim
+" -----------------------------------------------------------------------------
+" 补全配置脚本
+let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
+
+" 弹出列表时选择第1项的快捷键(默认为<TAB>和<Down>)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" 弹出列表时选择前1项的快捷键(默认为<S-TAB>和<UP>)
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" 主动补全, 默认为<C-Space>
+let g:ycm_key_invoke_completion = '<C-x>'
+" 停止显示补全列表(防止列表影响视野),可以按<C-x>重新弹出
+let g:ycm_key_list_stop_completion = ['<C-y>']
+
+" 停止提示是否载入本地ycm_extra_conf文件
+let g:ycm_confirm_extra_conf = 0
+
+let g:ycm_seed_identifiers_with_syntax = 1
+" 开启YCM 基于标签引擎
+let g:ycm_collect_identifiers_from_tags_files = 1
+" 从第2个键入字符就开始罗列匹配项
+let g:ycm_min_num_of_chars_for_completion = 2
+" 开启输入注释时补全
+let g:ycm_complete_in_comments = 1
+" 开启输入字符串时补全
+let g:ycm_complete_in_strings = 1
+" 开启注释和字符串中收集补全
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" 关闭函数预览
+let g:ycm_add_preview_to_completeopt = 0
+" 关闭代码诊断
+let g:ycm_show_diagnostics_ui = 0
+" 设置标识符补全最小字符数
+let g:ycm_min_num_identifier_candidate_chars = 2
+" 设置以下语言自动弹出语义补全(默认需要输入'.->::'或者按主动补全组合键)
+let g:ycm_semantic_triggers =  {
+            \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+            \ 'cs,lua,javascript': ['re!\w{2}'],
+            \ }
+" 白名单(以外的文件类型不分析补全)
+let g:ycm_filetype_whitelist = {
+            \ "s":1,
+            \ "S":1,
+            \ "c":1,
+            \ "C":1,
+            \ "cc":1,
+            \ "cxx":1,
+            \ "cpp":1,
+            \ "py":1,
+            \ "go":1,
+            \ "java":1,
+            \ "objc":1,
+            \ "sh":1,
+            \ "zsh":1,
+            \ "zimbu":1,
+            \ "txt":1,
+            \ "conf":1,
+            \ "vimrc":1,
+            \ "bashrc":1,
+            \ }
+
+" ALE.vim
+" -----------------------------------------------------------------------------
+"普通模式下警告跳转快捷键
+nmap <silent> <Leader>p <Plug>(ale_previous_wrap)
+nmap <silent> <Leader>n <Plug>(ale_next_wrap)
+"<Leader>x触发/关闭语法检查
+nmap <Leader>x :ALEToggle<CR>
+"<Leader>y查看错误或警告的详细信息
+nmap <Leader>y :ALEDetail<CR>
+"始终开启标志列
+"let g:ale_sign_column_always = 1
+" 错误警告消息格式
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" 文件打开时不进行检查
+let g:ale_lint_on_enter = 0
+" 文件修改时不进行检查
+let g:ale_lint_on_text_changed = 'never'
+" 文件保存时进行检查(默认)
+"let g:ale_lint_on_save = 1
+" 指定对应语言的检查工具
+let g:ale_linters = {
+            \   'c++': ['clang'],
+            \   'c': ['clang'],
+            \   'python': ['pylint'],
+            \   'go': ['gofmt', 'golint'],
+            \}
+" 关闭补全功能
+let g:ale_completion_enabled = 0
+" 使能airline状态栏扩展
+let g:airline#extensions#ale#enabled = 1
+" 禁用高亮显示
+"let g:ale_set_highlights = 0
+" 自定义error和warning标志
+"let g:ale_sign_error = '✗'
+"let g:ale_sign_warning = '⚡'
+
+" airline.vim
+" -----------------------------------------------------------------------------
+" 设置主题
+let g:airline_theme='molokai' "'bubblegum'
+" 这个是安装字体后必须设置此项"
+let g:airline_powerline_fonts = 1
+" 开启标签栏
+let g:airline#extensions#tabline#enabled = 1
+" 显示缓冲区编号
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" tabline中当前buffer两端的分隔字符
+"let g:airline#extensions#tabline#left_sep = ' '
+" tabline中未激活buffer两端的分隔字符
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+" 缓冲区切换快捷键
+nnoremap <Leader>. :bn<cr>
+nnoremap <Leader>, :bp<cr>
+nnoremap <Tab> :bn<cr>
+" 关闭状态显示空白符号计数"
+let g:airline#extensions#whitespace#enabled = 0
+" 状态栏显示设置
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.maxlinenr = ''
+
