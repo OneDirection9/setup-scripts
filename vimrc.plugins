@@ -1,0 +1,42 @@
+" Plug collections
+
+" Simple
+" -----------------------------------------------------------------------------
+Plug 'tpope/vim-surround'  " Surround
+Plug 'Townk/vim-autoclose'  " Autoclose
+
+" Basic
+" -----------------------------------------------------------------------------
+" Plug 'yianwillis/vimcdoc'  " Vim Document in Chinese
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'altercation/vim-colors-solarized'
+Plug 'vim-python/python-syntax', { 'for': ['python'] }
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+
+" High
+" -----------------------------------------------------------------------------
+Plug 'mhinz/vim-signify'
+Plug 't9md/vim-choosewin'  " Window chooser
+
+" Improved
+" -----------------------------------------------------------------------------
+Plug 'Shougo/echodoc.vim'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }  " Better file browser
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }  " Class/module browser
+
+" 索引
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
+Plug 'skywind3000/vim-preview'  " Preview window
+
+Plug 'michaeljsmith/vim-indent-object'  " Indent text object
+Plug 'jeetsukumaran/vim-indentwise'  " Indentation based movements
+
+" Auto Complete
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer',
+            \ 'for': ['s', 'S', 'c', 'h', 'C', 'cpp', 'cc', 'cxx', 'py', 'go', 'java', 'js', 'php', 'sh', 'conf', 'vimrc',     'bashrc', 'config', 'ini'] }
+
+" Asynchronous Lint Engine
+Plug 'w0rp/ale', { 'for': ['s', 'S', 'c', 'h', 'C', 'cpp', 'cc', 'cxx', 'py', 'go', 'java', 'js', 'php', 'sh', 'conf', 'vi    mrc', 'bashrc', 'config', 'ini'] }

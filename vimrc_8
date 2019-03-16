@@ -2,50 +2,29 @@
 " Vim-plug initialization
 " Avoid modify this section, unless you are very sure of what you are doing
 
+let vim_plug_just_installed = 0
 let vim_plug_path = expand('~/.vim/autoload/plug.vim')
 if !filereadable(vim_plug_path)
     silent !mkdir -p ~/.vim/autoload
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     :execute 'source '.fnameescape(vim_plug_path)
+    let vim_plug_just_installed = 1
 endif
 
 " ============================================================================
 " Active plugins
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/plug')
 
-" Plug 'airblade/vim-gitgutter'  " Git integration
-" Plug 'yianwillis/vimcdoc'  " Vim Document in Chinese
-Plug 'vim-scripts/mru.vim'  " Most Recently Used files
-
-" Color Scheme
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'altercation/vim-colors-solarized'
-
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }  " Better file browser
-Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }  " Class/module browser
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'skywind3000/gutentags_plus'
-Plug 'skywind3000/vim-preview'  " Preview window
-
-Plug 'vim-scripts/genutils'
-Plug 'vim-scripts/lookupfile'  " Search file (depend on genutils)
-
-Plug 'tpope/vim-surround'  " Surround
-Plug 'Townk/vim-autoclose'  " Autoclose
-Plug 't9md/vim-choosewin'  " Window chooser
-
-Plug 'michaeljsmith/vim-indent-object'  " Indent text object
-Plug 'jeetsukumaran/vim-indentwise'  " Indentation based movements
-
-" Auto Complete
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer',
-            \ 'for': ['s', 'S', 'c', 'h', 'C', 'cpp', 'cc', 'cxx', 'py', 'go', 'java', 'js', 'php', 'sh', 'conf', 'vimrc', 'bashrc', 'config', 'ini'] }
-
-" Asynchronous Lint Engine
-Plug 'w0rp/ale', { 'for': ['s', 'S', 'c', 'h', 'C', 'cpp', 'cc', 'cxx', 'py', 'go', 'java', 'js', 'php', 'sh', 'conf', 'vimrc', 'bashrc', 'config', 'ini'] }  
+if filereadable(expand('~/.vimrc.plugins'))
+    source ~/.vimrc.plugins
+endif
 
 call plug#end()
+
+if vim_plug_just_installed
+    echo "Installing Bundles"
+    :PlugInstall
+endif
 
 " ============================================================================
 " Vim settings
@@ -64,6 +43,7 @@ set background=dark
 colorscheme solarized
 " set cursorline  " highlight cursor line
 " highlight CursorLine cterm=Bold ctermbg=Black ctermfg=NONE guibg=Black guifg=NONE
+set signcolumn=yes
 
 " Basic Config ----------------------------------
 set nocompatible  " no vi-compatible
@@ -123,7 +103,7 @@ autocmd BufReadPost *
 let mapleader=' '  " Leader
 
 " enter command mode with semicolon
-nnoremap ; :  
+nnoremap ; :
 vnoremap ; :
 
 " Switch in windows
@@ -156,76 +136,50 @@ function! RunShell(Msg, Shell)
     echon 'done'
 endfunction
 
+" Save generate files to the directory
+
 " vimgrep查找字符串
-nmap <F6> :vimgrep /<C-R>=expand("<cword>")<cr>/ **/*.py<cr><C-o>:cw<cr>
-" 生成filename.tags快捷键F7
-nmap <F7> :call RunShell("Generate filename.tags", "genftag.sh")<cr>
+nmap <F6> :vimgrep /<C-R>=expand("<cword>")<cr>/ **/*.c **/*.h **/*.py<cr><C-o>:cw<cr>
 " 生成GTAGS数据库文件快捷键F8
-" nmap <F8> :call RunShell("Generate GTAGS.*", 'find . -name "*.[chsS]" -o -name "*.cpp" -o -name "*.cc" -o -name "*.C", -o -name "*.cxx"> gtags.files && gtags')<cr>
-" 生成tags文件快捷键F9
-nmap <F9> :call RunShell("Generate tags", "ctags -R --c-kinds=+lpxzL --c++-kinds=+lpxzLANU --fields=+niazS --extras=+q --output-format=e-ctags")<cr>
+" nmap <F8> :call RunShell("Generate GTAGS.*", 'find . -name "*.[chsS]" -o -name "*.cpp" -o -name "*.cc" -o --name "*.py" -o -name "*.C", -o -name "*.cxx"> gtags.files && gtags')<cr>
+" " 生成tags文件快捷键F9
+" nmap <F9> :call RunShell("Generate tags", "ctags -R --c-kinds=+lpxzL --c++-kinds=+lpxzLANU --fields=+niazS --extras=+q --o    utput-format=e-ctags")<cr>
+" " 生成cscope数据库文件快捷键F10
+" nmap <F10> :call RunShell("Generate cscope.*", 'find `pwd` -name "*.[chsS]" -o -name "*.cpp" -o -name "*.cc" -o -name "*.py" -o -name "*.C", -o -name "*.cxx"> cscope.files && cscope -bkq')<cr>
+" " 更新cscope或者GTAGS数据库快捷键F12
+" nmap <F12> :call UpdateDb()<cr>
 
 " ============================================================================
 " Plugins settings and mappings
 
-" Powerline
+" LeaderF
 " -----------------------------------------------------------------------------
-" set rtp+=$HOME/.local/lib/python3.6/site-packages/powerline/bindings/vim
+let g:Lf_ShortcutF = '<c-p>'
+let g:Lf_ShortcutB = '<m-n>'
+noremap <c-n> :LeaderfMru<cr>
+noremap <m-p> :LeaderfFunction!<cr>
+noremap <m-n> :LeaderfBuffer<cr>
+noremap <m-m> :LeaderfTag<cr>
+let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
-" mru.vim
+let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
+let g:Lf_WorkingDirectoryMode = 'Ac'
+let g:Lf_WindowHeight = 0.30
+let g:Lf_CacheDirectory = expand('~/.vim/cache')
+let g:Lf_ShowRelativePath = 0
+let g:Lf_HideHelp = 1
+let g:Lf_StlColorscheme = 'powerline'
+let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
+
+" echodoc.vim 
 " -----------------------------------------------------------------------------
-nmap <F4> :MRU<cr>  " Use F4 to open mru
-
-" lookupfile.vim
-" -----------------------------------------------------------------------------
-" 映射LookupFile快捷键
-nmap <Leader>lt :LUTags<cr>
-" 映射LUBufs快捷键
-nmap <Leader>lb :LUBufs<cr>
-" 映射LUWalk快捷键
-nmap <Leader>lw :LUWalk<cr>
-" 最少输入2个字符才开始查找
-let g:LookupFile_MinPatLength=2
-" 不保存上次查找的字符串
-let g:LookupFile_PreserveLastPattern=0
-" 保存查找历史
-let g:LookupFile_PreservePatternHistory=1
-" 回车打开第一个匹配项目
-let g:LookupFile_AlwaysAcceptFirst=1
-" 不允许创建不存在的文件
-let g:LookupFile_AllowNewFiles=0
-" 关闭对搜索结果的字母排序
-let g:LookupFile_SortMethod=""
-" 向上递归查找tags文件
-let g:filename_tags=findfile("filename.tags", ".;")
-" 设置tags文件
-if filereadable(g:filename_tags)
-    let g:LookupFile_TagExpr='"'.g:filename_tags.'"'
-endif
-" 查找忽略大小写
-function! LookupFile_IgnoreCaseFunc(pattern)
-    let _tags = &tags
-    try
-        let &tags = eval(g:LookupFile_TagExpr)
-        let newpattern = '\c' . a:pattern
-        let tags = taglist(newpattern)
-    catch
-        echohl ErrorMsg | echo "Exception: " . v:exception | echohl NONE
-        return ""
-    finally
-        let &tags = _tags
-    endtry
-
-    " Show the matches for what is typed so far.
-    let files = map(tags, 'v:val["filename"]')
-    return files
-endfunction
-let g:LookupFile_LookupFunc = 'LookupFile_IgnoreCaseFunc'   "'  "
+set noshowmode
+let g:echodoc#enable_at_startup = 1
 
 " taglist.vim
 " -----------------------------------------------------------------------------
 " 设置打开关闭快捷键F2 
-nmap  <F2> :TlistToggle<cr>
+nmap  <F3> :TlistToggle<cr>
 " 自动更新tags列表
 let g:Tlist_Auto_Update=1
 " 始终解析文件中的tag,不管taglist窗口有没有打开
@@ -241,14 +195,14 @@ let g:Tlist_Enable_Fold_Column=0
 " 高亮显示当前tag
 let g:Tlist_Auto_Highlight_Tag=1
 " 设置窗口显示在右侧
-"let g:Tlist_Use_Right_Window=1
+let g:Tlist_Use_Right_Window=1
 " 打开时光标定位于taglist窗口
 let g:Tlist_GainFocus_On_ToggleOpen=1
 
 " NERDTree.vim
 " -----------------------------------------------------------------------------
 " 设置打开关闭快捷键F3
-nmap  <F3> :NERDTreeToggle<cr>
+nmap  <F2> :NERDTreeToggle<cr>
 " 窗口美化
 let NERDChristmasTree=1
 " 自动调整光标到窗口中心
@@ -260,22 +214,150 @@ let NERDTreeShowFiles=1
 " 默认显示隐藏文件
 let NERDTreeShowHidden=1
 " 窗口位置（'left' or 'right'）
-let g:NERDTreeWinPos="right"
+let g:NERDTreeWinPos="left"
 " 窗口宽度
 let g:NERDTreeWinSize=30
 " 显示行号
 let g:NERDTreeShowLineNumbers=1
 " 打开文件后关闭NERDTree窗口
-let g:NERDTreeQuitOnOpen=1
+" let g:NERDTreeQuitOnOpen=1
 " 高亮显示当前行目录或文件
 let NERDTreeHightCursorline=1
 " open nerdtree with the current file selected
 nmap ,t :NERDTreeFind<CR>
 " don;t show these file types
-let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.o$']
+
+" cscope配置
+" -----------------------------------------------------------------------------
+" cscope数据库更新完毕回调函数
+function! UpcsCallback(...)
+    execute "cs reset"
+endfunction
+
+" 更新cscope数据库函数
+function! UpdateCsdb(path)
+    if (a:path != '')
+        execute "cd " . a:path
+    endif
+    call job_start("cscope -bkq", {'exit_cb': 'UpcsCallback'})
+    if (a:path != '')
+        execute "cd -"
+    endif
+endfunction
+
+" 更新GTAGS数据库函数
+function! UpdateGtags(f)
+    let l:dir = fnamemodify(a:f, ':p:h')
+    execute "cd " . l:dir
+    call job_start("global -u")
+    execute "cd -"
+endfunction
+
+" 更新cscope或者GTAGS数据库
+function! UpdateDb()
+    if g:csflag == 0
+        call UpdateCsdb(g:cspath)
+    elseif g:csflag == 1
+        call UpdateGtags(expand('<afile>'))
+    else
+    endif
+endfunction
+
+if executable('cscope')
+    " 获取GTAGS目录
+    let s:gtfile = system('global -pq')
+    " 向上递归寻找cscope.files
+    let g:csfile = findfile("cscope.out", ".;")
+
+    " 如果存在cscope.out则获取目录
+    if filereadable(g:csfile)
+        " 设置cscope模式标志
+        let g:csflag = 0
+        " 获取cscope.out目录
+        let s:pathlen = strridx(g:csfile, "cscope.out")
+        let g:cspath = strpart(g:csfile, 0, s:pathlen)
+    " 如果存在GTAGS则获取目录
+    elseif s:gtfile != ""
+        " 设置cscope模式标志
+        let g:csflag = 1
+        " 获取GTAGS目录
+        let g:gtpath = strpart(s:gtfile, 0, strlen(s:gtfile) - 1)
+    " 否则使用gutentags_plus
+    else
+        " 设置cscope模式标志
+        let g:csflag = 2
+    endif
+
+    " cscope程序位置
+    if !exists("g:cspath") && executable('gtags-cscope')
+        " 设置cscope映射的程序
+        set csprg=/usr/local/bin/gtags-cscope
+        if g:csflag == 1
+            " 加载GTAGS
+            execute 'silent cs add ' . g:gtpath . '/GTAGS'
+            " 保存文件后自动更新GTAGS
+            autocmd BufWritePost * call UpdateGtags(expand('<afile>'))
+        endif
+    elseif g:csfile != ""
+        " 设置cscope映射的程序
+        set csprg=/usr/local/bin/cscope
+        " 自动命令查找结果不使用quickfix窗口
+        " autocmd BufReadPost * set cscopequickfix=""
+        " 保存文件后自动更新GTAGS
+        autocmd BufWritePost * call UpdateCsdb(g:cspath)
+        " 加载cscope.out
+        set nocsverb
+        execute 'cs add ' . g:csfile
+    endif
+
+    " 显示添加数据库结果
+    set csverb
+    " 使用cstag命令代替tag命令
+    set cst
+    " 优先搜索cscope.out,失败再搜索tags
+    set csto=0
+    " 显示文件路径全名
+    set cspc=0
+endif
+
+" cscope当前窗口直接跳转快捷键
+nnoremap <Leader>fs :cs find s <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>fg :cs find g <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>fd :cs find d <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>fc :cs find c <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>ft :cs find t <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>fe :cs find e <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>ff :cs find f <C-R>=expand("<cfile>")<cr><cr>
+nnoremap <Leader>fi :cs find i <C-R>=expand("<cfile>")<cr><cr>
+nnoremap <Leader>fa :cs find a <C-R>=expand("<cword>")<cr><cr>
+
+" cscope跳转同时新建水平分割窗口快捷键
+nnoremap <Leader>ss :scs find s <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>sg :scs find g <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>sd :scs find d <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>sc :scs find c <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>st :scs find t <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>se :scs find e <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>sf :scs find f <C-R>=expand("<cfile>")<cr><cr>
+nnoremap <Leader>si :scs find i <C-R>=expand("<cfile>")<cr><cr>
+nnoremap <Leader>sa :scs find a <C-R>=expand("<cword>")<cr><cr>
+
+" cscope跳转同时新建垂直分割窗口快捷键
+nnoremap <Leader>vs :vert scs find s <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>vg :vert scs find g <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>vd :vert scs find d <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>vc :vert scs find c <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>vt :vert scs find t <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>ve :vert scs find e <C-R>=expand("<cword>")<cr><cr>
+nnoremap <Leader>vf :vert scs find f <C-R>=expand("<cfile>")<cr><cr>
+nnoremap <Leader>vi :vert scs find i <C-R>=expand("<cfile>")<cr><cr>
+nnoremap <Leader>va :vert scs find a <C-R>=expand("<cword>")<cr><cr>
 
 " gutentags.vim && gutentags_plus.vim
 " -----------------------------------------------------------------------------
+let $GTAGSLABEL = 'native-pygments'
+let $GTAGSCONF = '/usr/local/share/gtags/gtags.conf'
 " 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
 let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
 " 所生成的数据文件的名称 "
@@ -284,6 +366,9 @@ let g:gutentags_ctags_tagfile = '.tags'
 let g:gutentags_modules = []
 if executable('ctags')
     let g:gutentags_modules += ['ctags']
+endif
+if executable('gtags-cscope') && executable('gtags')
+    let g:gutentags_modules += ['gtags_cscope']
 endif
 " 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录 "
 let s:vim_tags = expand('~/.cache/tags')
@@ -304,12 +389,11 @@ let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 let g:gutentags_auto_add_gtags_cscope = 0
 
 " vim-preview.vim
-" -----------------------------------------------------------------------------
 " p预览 大P关闭
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 noremap <Leader>u :PreviewScroll -1<cr> " 往上滚动预览窗口
-noremap <Leader>d :PreviewScroll +1<cr> "  往下滚动预览窗口
+noremap <Leader>d :PreviewScroll +1<cr> " 往下滚动预览窗口
 
 " Window Chooser ------------------------------
 
@@ -389,7 +473,7 @@ nmap <Leader>x :ALEToggle<CR>
 "<Leader>y查看错误或警告的详细信息
 nmap <Leader>y :ALEDetail<CR>
 "始终开启标志列
-"let g:ale_sign_column_always = 1
+" let g:ale_sign_column_always = 1
 " 错误警告消息格式
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
