@@ -43,7 +43,6 @@ set background=dark
 colorscheme solarized
 " set cursorline  " highlight cursor line
 " highlight CursorLine cterm=Bold ctermbg=Black ctermfg=NONE guibg=Black guifg=NONE
-set signcolumn=yes
 
 " Basic Config ----------------------------------
 set nocompatible  " no vi-compatible
@@ -101,6 +100,7 @@ autocmd BufReadPost *
 " Key mappings
 
 let mapleader=' '  " Leader
+let maplocalleader=','  " Leader
 
 " enter command mode with semicolon
 nnoremap ; :
@@ -120,13 +120,13 @@ inoremap <C-l> <Esc><C-w>l
 nnoremap <Leader>+ :resize +1<cr>
 nnoremap <Leader>_ :resize -1<cr>
 nnoremap + :vertical resize +1<cr>
-nnoremap _ :vertical resize -1<cr> 
+nnoremap _ :vertical resize -1<cr>
 
 " tab navigation mappings
 map tn :tabn<CR>
 map tp :tabp<CR>
-map tm :tabm 
-map tt :tabnew 
+map tm :tabm
+map tt :tabnew
 map ts :tab split<CR>
 
 " shell命令调用函数
@@ -144,14 +144,19 @@ nmap <F6> :vimgrep /<C-R>=expand("<cword>")<cr>/ **/*.c **/*.h **/*.py<cr><C-o>:
 " ============================================================================
 " Plugins settings and mappings
 
+" vim-signify
+" -----------------------------------------------------------------------------
+set signcolumn=yes
+noremap <Leader>s :SignifyDiff<cr>
+
 " LeaderF
 " -----------------------------------------------------------------------------
 let g:Lf_ShortcutF = '<c-p>'
 let g:Lf_ShortcutB = '<m-n>'
 noremap <c-n> :LeaderfMru<cr>
-noremap <m-p> :LeaderfFunction!<cr>
-noremap <m-n> :LeaderfBuffer<cr>
-noremap <m-m> :LeaderfTag<cr>
+noremap <M-p> :LeaderfFunction!<cr>
+noremap <M-n> :LeaderfBuffer<cr>
+noremap <M-m> :LeaderfTag<cr>
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
 let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
@@ -163,14 +168,14 @@ let g:Lf_HideHelp = 1
 let g:Lf_StlColorscheme = 'powerline'
 let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 
-" echodoc.vim 
+" echodoc.vim
 " -----------------------------------------------------------------------------
 set noshowmode
 let g:echodoc#enable_at_startup = 1
 
 " taglist.vim
 " -----------------------------------------------------------------------------
-" 设置打开关闭快捷键F2 
+" 设置打开关闭快捷键F2
 nmap  <F3> :TlistToggle<cr>
 " 自动更新tags列表
 let g:Tlist_Auto_Update=1
@@ -255,82 +260,47 @@ let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 let g:gutentags_auto_add_gtags_cscope = 0
 
 " vim-preview.vim
+" -----------------------------------------------------------------------------
 " p预览 大P关闭
 autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
 autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 noremap <Leader>u :PreviewScroll -1<cr> " 往上滚动预览窗口
 noremap <Leader>d :PreviewScroll +1<cr> " 往下滚动预览窗口
 
-" Window Chooser ------------------------------
-
-" mapping
+" Window Chooser
+" -----------------------------------------------------------------------------
 nmap  -  <Plug>(choosewin)
 " show big letters
 let g:choosewin_overlay_enable = -1
 
-" YouCompleteMe.vim
+" yapf
 " -----------------------------------------------------------------------------
-" 补全配置脚本
-let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
+autocmd FileType python nnoremap <LocalLeader>f :0,$!yapf<CR>
 
-" 弹出列表时选择第1项的快捷键(默认为<TAB>和<Down>)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-" 弹出列表时选择前1项的快捷键(默认为<S-TAB>和<UP>)
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-" 主动补全, 默认为<C-Space>
-let g:ycm_key_invoke_completion = '<C-x>'
-" 停止显示补全列表(防止列表影响视野),可以按<C-x>重新弹出
-let g:ycm_key_list_stop_completion = ['<C-y>']
-
-" 停止提示是否载入本地ycm_extra_conf文件
-let g:ycm_confirm_extra_conf = 0
-
-let g:ycm_seed_identifiers_with_syntax = 1
-" 开启YCM 基于标签引擎
-let g:ycm_collect_identifiers_from_tags_files = 1
-" 从第2个键入字符就开始罗列匹配项
-let g:ycm_min_num_of_chars_for_completion = 2
-" 开启输入注释时补全
-let g:ycm_complete_in_comments = 1
-" 开启输入字符串时补全
-let g:ycm_complete_in_strings = 1
-" 开启注释和字符串中收集补全
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-" 关闭函数预览
-let g:ycm_add_preview_to_completeopt = 0
-" 关闭代码诊断
-let g:ycm_show_diagnostics_ui = 0
-" 设置标识符补全最小字符数
-let g:ycm_min_num_identifier_candidate_chars = 2
-" 设置以下语言自动弹出语义补全(默认需要输入'.->::'或者按主动补全组合键)
-let g:ycm_semantic_triggers =  {
-            \ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
-            \ 'cs,lua,javascript': ['re!\w{2}'],
-            \ }
-" 白名单(以外的文件类型不分析补全)
-let g:ycm_filetype_whitelist = {
-            \ "s":1,
-            \ "S":1,
-            \ "c":1,
-            \ "C":1,
-            \ "cc":1,
-            \ "cxx":1,
-            \ "cpp":1,
-            \ "py":1,
-            \ "go":1,
-            \ "java":1,
-            \ "objc":1,
-            \ "sh":1,
-            \ "zsh":1,
-            \ "zimbu":1,
-            \ "txt":1,
-            \ "conf":1,
-            \ "vimrc":1,
-            \ "bashrc":1,
-            \ }
+" jedi-vim
+" -----------------------------------------------------------------------------
+let g:jedi#show_call_signatures = 0
 
 " ALE.vim
 " -----------------------------------------------------------------------------
+let g:ale_set_highlights = 0  " 禁用高亮显示
+let g:ale_fix_on_save = 1
+
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚡'
+let g:ale_echo_msg_error_str = '✹ Error'
+let g:ale_echo_msg_warning_str = '⚠ Warning'
+" 使能airline状态栏扩展
+let g:airline#extensions#ale#enabled = 1
+let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
+" 错误警告消息格式
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+let g:ale_completion_delay = 500
+let g:ale_echo_delay = 20
+let g:ale_lint_delay = 500
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
 "普通模式下警告跳转快捷键
 nmap <silent> <Leader>p <Plug>(ale_previous_wrap)
 nmap <silent> <Leader>n <Plug>(ale_next_wrap)
@@ -338,18 +308,6 @@ nmap <silent> <Leader>n <Plug>(ale_next_wrap)
 nmap <Leader>x :ALEToggle<CR>
 "<Leader>y查看错误或警告的详细信息
 nmap <Leader>y :ALEDetail<CR>
-"始终开启标志列
-" let g:ale_sign_column_always = 1
-" 错误警告消息格式
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-" 文件打开时不进行检查
-let g:ale_lint_on_enter = 0
-" 文件修改时不进行检查
-let g:ale_lint_on_text_changed = 'never'
-" 文件保存时进行检查(默认)
-"let g:ale_lint_on_save = 1
 " 指定对应语言的检查工具
 let g:ale_linters = {
             \   'c++': ['clang'],
@@ -357,15 +315,14 @@ let g:ale_linters = {
             \   'python': ['pylint'],
             \   'go': ['gofmt', 'golint'],
             \}
+let g:ale_fixers = {
+    \  '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \  'python': [
+    \    'ale#fixers#generic_python#BreakUpLongLines',
+    \   ]
+    \}
 " 关闭补全功能
 let g:ale_completion_enabled = 0
-" 使能airline状态栏扩展
-let g:airline#extensions#ale#enabled = 1
-" 禁用高亮显示
-"let g:ale_set_highlights = 0
-" 自定义error和warning标志
-"let g:ale_sign_error = '✗'
-"let g:ale_sign_warning = '⚡'
 
 " airline.vim
 " -----------------------------------------------------------------------------
@@ -377,14 +334,6 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 " 显示缓冲区编号
 let g:airline#extensions#tabline#buffer_nr_show = 1
-" tabline中当前buffer两端的分隔字符
-"let g:airline#extensions#tabline#left_sep = ' '
-" tabline中未激活buffer两端的分隔字符
-"let g:airline#extensions#tabline#left_alt_sep = '|'
-" 缓冲区切换快捷键
-nnoremap <Leader>. :bn<cr>
-nnoremap <Leader>, :bp<cr>
-nnoremap <Tab> :bn<cr>
 " 关闭状态显示空白符号计数"
 let g:airline#extensions#whitespace#enabled = 0
 " 状态栏显示设置
@@ -400,4 +349,3 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = '☰'
 let g:airline_symbols.maxlinenr = ''
-
