@@ -129,15 +129,6 @@ map tm :tabm
 map tt :tabnew
 map ts :tab split<CR>
 
-" shell命令调用函数
-function! RunShell(Msg, Shell)
-    echo a:Msg . '...'
-    call system(a:Shell)
-    echon 'done'
-endfunction
-
-" Save generate files to the directory
-
 " vimgrep查找字符串
 nmap <F6> :vimgrep /<C-R>=expand("<cword>")<cr>/ **/*.c **/*.h **/*.py<cr><C-o>:cw<cr>
 
