@@ -48,6 +48,7 @@ colorscheme solarized
 set nocompatible  " no vi-compatible
 filetype plugin on  " allow plugins by file type (required for plugins!)
 filetype indent on
+set noswapfile
 
 set ls=2  " always show status bar
 set number  " show line numbers
@@ -115,6 +116,9 @@ inoremap <C-h> <Esc><C-w>h
 inoremap <C-j> <Esc><C-w>j
 inoremap <C-k> <Esc><C-w>k
 inoremap <C-l> <Esc><C-w>l
+
+nnoremap <Tab> :bn<cr>
+nnoremap <S-Tab> :bp<cr>
 
 " Resize Window
 nnoremap <Leader>+ :resize +1<cr>
