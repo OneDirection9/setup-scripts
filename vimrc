@@ -151,12 +151,11 @@ noremap <Leader>s :SignifyDiff<cr>
 
 " LeaderF
 " -----------------------------------------------------------------------------
-let g:Lf_ShortcutF = '<c-p>'
-let g:Lf_ShortcutB = '<m-n>'
-noremap <c-n> :LeaderfMru<cr>
-noremap <M-p> :LeaderfFunction!<cr>
-noremap <M-n> :LeaderfBuffer<cr>
-noremap <M-m> :LeaderfTag<cr>
+let g:Lf_ShortcutF = '<leader>f'
+let g:Lf_ShortcutB = '<leader>b'
+noremap <leader>m :LeaderfMru<cr>
+noremap <leader>F :LeaderfFunction!<cr>
+noremap <leader>t :LeaderfTag<cr>
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
 let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
