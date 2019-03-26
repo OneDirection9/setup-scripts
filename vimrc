@@ -154,7 +154,7 @@ noremap <Leader>s :SignifyDiff<cr>
 let g:Lf_ShortcutF = '<leader>f'
 let g:Lf_ShortcutB = '<leader>b'
 noremap <leader>m :LeaderfMru<cr>
-noremap <leader>F :LeaderfFunction!<cr>
+noremap <leader>F :LeaderfFunction<cr>
 noremap <leader>t :LeaderfTag<cr>
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
