@@ -48,6 +48,7 @@ colorscheme solarized
 set nocompatible  " no vi-compatible
 filetype plugin on  " allow plugins by file type (required for plugins!)
 filetype indent on
+set noswapfile
 
 set ls=2  " always show status bar
 set number  " show line numbers
@@ -116,6 +117,9 @@ inoremap <C-j> <Esc><C-w>j
 inoremap <C-k> <Esc><C-w>k
 inoremap <C-l> <Esc><C-w>l
 
+nnoremap <Tab> :bn<cr>
+nnoremap <S-Tab> :bp<cr>
+
 " Resize Window
 nnoremap <Leader>+ :resize +1<cr>
 nnoremap <Leader>_ :resize -1<cr>
@@ -128,15 +132,6 @@ map tp :tabp<CR>
 map tm :tabm
 map tt :tabnew
 map ts :tab split<CR>
-
-" shell命令调用函数
-function! RunShell(Msg, Shell)
-    echo a:Msg . '...'
-    call system(a:Shell)
-    echon 'done'
-endfunction
-
-" Save generate files to the directory
 
 " vimgrep查找字符串
 nmap <F6> :vimgrep /<C-R>=expand("<cword>")<cr>/ **/*.c **/*.h **/*.py<cr><C-o>:cw<cr>
