@@ -5,6 +5,9 @@ Configs and scripts for development.
 
 Copy `vimrc` and `vimrc.plugins` to your home directory and rename to `.vimrc` and `.vimrc.plugins`.
 
+**NOTE**: Please don't exit the file until the gtags_cscope finished. Otherwise, will raise
+GTags: GTAGS seems corrupted`
+
 ### Prerequisite
 
 ```bash
@@ -19,6 +22,10 @@ sudo apt-get install libncurses5-dev
 sudo apt-get install cmake build-essential
 sudo apt-get install autoconf pkg-config
 sudo apt-get install cscope
+
+# For other 50 languages, such as python,
+# need install pygments.
+pip install pygments
 ```
 
 ### Dependencies
@@ -81,3 +88,4 @@ brew link vim
 # add alias in bash_profile
 alias vim=mvim
 ```
+
