@@ -255,6 +255,7 @@ endif
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extras=+q']
 let g:gutentags_ctags_extra_args += ['--c++-kinds=+lpxzLANU']
 let g:gutentags_ctags_extra_args += ['--c-kinds=+lpxzL']
+let g:gutentags_ctags_extra_args += ['--skip-unreadable']
 " 如果使用universal ctags需要增加下面一行
 let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 " 禁用 gutentags 自动加载 gtags 数据库的行为
