@@ -1,0 +1,56 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        { 
+            "name": "Kickstart",
+            "type": "cppdbg",
+            "request": "launch",
+            "logging": {
+                "moduleLoad": false
+            },
+            "program": "${workspaceFolder}/a.out",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "kickstart_c++"
+        },
+        { 
+            "name": "Codeforces",
+            "type": "cppdbg",
+            "request": "launch",
+            "logging": {
+                "moduleLoad": false
+            },
+            "program": "${workspaceFolder}/b.out",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "codeforces_c++"
+        },
+        {
+            "name": "Leetcode",
+            "type": "cppdbg",
+            "request": "launch",
+            "logging": {
+                "moduleLoad": false
+            },
+            "program": "${workspaceFolder}/c.out",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "leetcode_c++"
+        }
+    ]
+}

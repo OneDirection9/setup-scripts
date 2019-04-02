@@ -1,0 +1,64 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "kickstart_c++",
+            "command": "clang++",
+            "type": "shell",
+            "args": [
+                "kickstart.cpp",
+                "-std=c++14",
+                "-pthread",
+                "-O3",
+                "-o",
+                "${workspaceFolder}/a.out"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "codeforces_c++",
+            "command": "clang++",
+            "type": "shell",
+            "args": [
+                "codeforces.cpp",
+                "-std=c++14",
+                "-pthread",
+                "-O3",
+                "-o",
+                "${workspaceFolder}/b.out"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "leetcode_c++",
+            "command": "clang++",
+            "type": "shell",
+            "args": [
+                "leetcode.cpp",
+                "-std=c++14",
+                "-pthread",
+                "-O3",
+                "-o",
+                "${workspaceFolder}/c.out"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        }
+    ]
+}
