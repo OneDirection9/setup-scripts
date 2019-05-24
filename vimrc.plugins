@@ -7,7 +7,7 @@ Plug 'Townk/vim-autoclose'  " Autoclose
 
 " Basic
 " -----------------------------------------------------------------------------
-" Plug 'yianwillis/vimcdoc'  " Vim Document in Chinese
+Plug 'yianwillis/vimcdoc'  " Vim Document in Chinese
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
@@ -25,6 +25,8 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }  " Better file browser
 Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }  " Class/module browser
 
 " 索引
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3001/gutentags_plus'
 Plug 'skywind3000/vim-preview'  " Preview window
 
 " Python
