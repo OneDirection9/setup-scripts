@@ -4,6 +4,7 @@
 	cm = commit
 	ls = log --pretty=oneline
 	br = branch
+	sb = show-branch
 [core]
 	editor = vim
 	whitespace = cr-at-eol
