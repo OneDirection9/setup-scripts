@@ -177,9 +177,15 @@ let g:Lf_HideHelp = 1
 let g:Lf_StlColorscheme = 'powerline'
 let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 
-" let g:Lf_Gtagslabel = "/usr/local/share/gtags/gtags.conf"
-" let g:Lf_GtagsAutoGenerate = 1
-" let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_Gtagsconf = "/usr/local/share/gtags/gtags.conf"
+let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_GtagsAutoGenerate = 1
+
+noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
 " echodoc.vim
 " -----------------------------------------------------------------------------
