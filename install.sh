@@ -36,6 +36,7 @@ cd vim
             --enable-gui=gtk2 \
             --prefix=/usr
 make -j8 && install
+cd ..
 
 # Install Universal-ctags
 if [ "$(uname)" = "Darwin" ]; then
@@ -47,6 +48,7 @@ else
     ./autogen.sh
     ./configure
     make -j8 && install
+    cd ..
 fi
 
 # Install gun-global
@@ -55,6 +57,7 @@ tar xvf global-6.6.3.tar.gz
 cd global-6.6.3
 ./configure
 make -j8 && install
+cd ..
 
 cp vimrc ~/.vimrc
 cp vimrc.plugins ~/.vimrc.plugins
