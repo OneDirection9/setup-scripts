@@ -177,9 +177,17 @@ let g:Lf_HideHelp = 1
 let g:Lf_StlColorscheme = 'powerline'
 let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 
-" let g:Lf_Gtagslabel = "/usr/local/share/gtags/gtags.conf"
-" let g:Lf_GtagsAutoGenerate = 1
-" let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_Gtagsconf = "/usr/local/share/gtags/gtags.conf"
+let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_GtagsAutoGenerate = 1
+
+noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf! gtags -s %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fg :<C-U><C-R>=printf("Leaderf! gtags -g %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
 " echodoc.vim
 " -----------------------------------------------------------------------------
@@ -238,36 +246,36 @@ nmap ,t :NERDTreeFind<CR>
 " don;t show these file types
 let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.o$']
 
-" gutentags.vim && gutentags_plus.vim
-" -----------------------------------------------------------------------------
-" 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
-" 所生成的数据文件的名称 "
-let g:gutentags_ctags_tagfile = '.tags'
-" tags模式设置
-let g:gutentags_modules = []
-if executable('gtags-cscope') && executable('gtags')
-    let $GTAGSLABEL = 'native-pygments'
-    let $GTAGSCONF = '/usr/local/share/gtags/gtags.conf'
-    let g:gutentags_modules += ['gtags_cscope']
-endif
-" 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录 "
-let s:vim_tags = expand('~/.cache/tags')
-let g:gutentags_cache_dir = s:vim_tags
-" 检测 ~/.cache/tags 不存在就新建 "
-if !isdirectory(s:vim_tags)
-   silent! call mkdir(s:vim_tags, 'p')
-endif
-" 配置ctags的参数 "
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extras=+q']
-let g:gutentags_ctags_extra_args += ['--c++-kinds=+lpxzLANU']
-let g:gutentags_ctags_extra_args += ['--c-kinds=+lpxzL']
-" 如果使用universal ctags需要增加下面一行
-let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
-" 禁用 gutentags 自动加载 gtags 数据库的行为
-" 避免多个项目数据库相互干扰
-" 使用plus插件解决问题
-let g:gutentags_auto_add_gtags_cscope = 0
+"  " gutentags.vim && gutentags_plus.vim
+"  " -----------------------------------------------------------------------------
+"  " 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
+" let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
+"  " 所生成的数据文件的名称 "
+" let g:gutentags_ctags_tagfile = '.tags'
+"  " tags模式设置
+" let g:gutentags_modules = []
+" if executable('gtags-cscope') && executable('gtags')
+"     let $GTAGSLABEL = 'native-pygments'
+"     let $GTAGSCONF = '/usr/local/share/gtags/gtags.conf'
+"     let g:gutentags_modules += ['gtags_cscope']
+" endif
+"  " 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录 "
+" let s:vim_tags = expand('~/.cache/tags')
+" let g:gutentags_cache_dir = s:vim_tags
+"  " 检测 ~/.cache/tags 不存在就新建 "
+" if !isdirectory(s:vim_tags)
+"    silent! call mkdir(s:vim_tags, 'p')
+" endif
+"  " 配置ctags的参数 "
+" let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extras=+q']
+" let g:gutentags_ctags_extra_args += ['--c++-kinds=+lpxzLANU']
+" let g:gutentags_ctags_extra_args += ['--c-kinds=+lpxzL']
+"  " 如果使用universal ctags需要增加下面一行
+" let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+"  " 禁用 gutentags 自动加载 gtags 数据库的行为
+"  " 避免多个项目数据库相互干扰
+"  " 使用plus插件解决问题
+" let g:gutentags_auto_add_gtags_cscope = 0
 
 " vim-preview.vim
 " -----------------------------------------------------------------------------
