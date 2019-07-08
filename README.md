@@ -6,9 +6,13 @@ Configs and scripts for development.
 
 Checked on Ubuntu 16.04.
 
-```bash
-./install.sh
-```
+1. vim: `./install_vim.sh`
+
+2. tmux: `cp tmux.conf .tmux.conf`
+
+3. git: `cp gitconfig .gitconfig`
+
+4. zsh: `./install_zsh.sh`
 
 ### Macvim
 
