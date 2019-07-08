@@ -61,5 +61,3 @@ cd ..
 
 cp vimrc ~/.vimrc
 cp vimrc.plugins ~/.vimrc.plugins
-cp tmux.conf ~/.tmux.conf
-cp gitconfig ~/.gitconfig
