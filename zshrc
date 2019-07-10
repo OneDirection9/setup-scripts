@@ -104,5 +104,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
+
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # source ~/.bashrc
