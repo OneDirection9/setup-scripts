@@ -345,16 +345,16 @@ let g:ale_completion_enabled = 0
 " let g:airline_theme='molokai' "'bubblegum'
 " " 这个是安装字体后必须设置此项"
 " let g:airline_powerline_fonts = 1
-" " 开启标签栏
-" let g:airline#extensions#tabline#enabled = 1
-" " 显示缓冲区编号
-" let g:airline#extensions#tabline#buffer_nr_show = 1
-" " 关闭状态显示空白符号计数"
-" let g:airline#extensions#whitespace#enabled = 0
-" " 状态栏显示设置
-" if !exists('g:airline_symbols')
-"     let g:airline_symbols = {}
-" endif
+" 开启标签栏
+let g:airline#extensions#tabline#enabled = 1
+" 显示缓冲区编号
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" 关闭状态显示空白符号计数"
+let g:airline#extensions#whitespace#enabled = 0
+" 状态栏显示设置
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
 " " powerline symbols
 " let g:airline_left_sep = ''
 " let g:airline_left_alt_sep = ''
