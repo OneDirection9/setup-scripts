@@ -107,5 +107,9 @@ source $ZSH/oh-my-zsh.sh
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
 
+bindkey '^ ' autosuggest-accept
+
+HIST_STAMPS="yyyy-mm-dd"
+
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # source ~/.bashrc
