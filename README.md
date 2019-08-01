@@ -12,12 +12,8 @@ Checked on Ubuntu 16.04.
 
 3. git: `cp gitconfig .gitconfig`
 
-4. zsh:
+4. zsh: `./install_zsh.sh`
 
-    ```shell
-    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    ./install_zsh.sh
-    ```
 5. [isort](https://github.com/timothycrosley/isort): `cp isort.cfg ~/.isort.cfg`
 
 ### Macvim
