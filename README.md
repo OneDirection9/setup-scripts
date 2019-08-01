@@ -13,11 +13,12 @@ Checked on Ubuntu 16.04.
 3. git: `cp gitconfig .gitconfig`
 
 4. zsh:
-    
+
     ```shell
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     ./install_zsh.sh
     ```
+5. [isort](https://github.com/timothycrosley/isort): `cp isort.cfg ~/.isort.cfg`
 
 ### Macvim
 
@@ -31,4 +32,3 @@ brew link vim
 # add alias in bash_profile
 alias vim=mvim
 ```
-
