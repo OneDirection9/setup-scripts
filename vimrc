@@ -39,7 +39,6 @@ set fileformat=unix
 syntax on  " syntax highlight on
 set t_Co=256
 set background=dark
-colorscheme solarized
 " set cursorline  " highlight cursor line
 " highlight CursorLine cterm=Bold ctermbg=Black ctermfg=NONE guibg=Black guifg=NONE
 
@@ -333,3 +332,5 @@ endif
 " let g:airline_symbols.readonly = ''
 " let g:airline_symbols.linenr = '☰'
 " let g:airline_symbols.maxlinenr = ''
+
+colorscheme solarized
