@@ -139,6 +139,8 @@ nnoremap _ :vertical resize -1<cr>
 " tab navigation mappings
 nnoremap tn :tabn<CR>
 nnoremap tp :tabp<CR>
+nnoremap tm :tabm
+nnoremap tt :tabnew
 nnoremap ts :tab split<CR>
 nnoremap tl :tabs<CR>
 nnoremap tc :tabc<CR>
