@@ -16,6 +16,8 @@ Checked on Ubuntu 16.04.
 
 5. [isort](https://github.com/timothycrosley/isort): `cp isort.cfg ~/.isort.cfg`
 
+6. [yapf](https://github.com/google/yapf): `cp style.yapf ~/.style.yapf`
+
 ### Macvim
 
 Use macvim in Macos
