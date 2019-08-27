@@ -1,38 +1,25 @@
 " Plug collections
 
-" Simple
+" UI
 " -----------------------------------------------------------------------------
-Plug 'tpope/vim-surround'  " Surround
-Plug 'Townk/vim-autoclose'  " Autoclose
-
-" Basic
-" -----------------------------------------------------------------------------
-Plug 'yianwillis/vimcdoc'  " Vim Document in Chinese
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 
-" High
+" Basic
 " -----------------------------------------------------------------------------
-Plug 'mhinz/vim-signify'
+" Plug 'yianwillis/vimcdoc'  " Vim Document in Chinese
+Plug 'Townk/vim-autoclose'  " Autoclose
 Plug 't9md/vim-choosewin'  " Window chooser
+Plug 'mhinz/vim-signify'  " Diff
+Plug 'tpope/vim-surround'  " Surround
 
 " Improved
 " -----------------------------------------------------------------------------
-Plug 'Shougo/echodoc.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }  " Better file browser
 Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }  " Class/module browser
-
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'skywind3000/vim-preview'  " Preview window
-
-" Python
-Plug 'michaeljsmith/vim-indent-object'  " Indent text object
-Plug 'jeetsukumaran/vim-indentwise'  " Indentation based movements
-Plug 'google/yapf'
-
-"  Auto Complete
-Plug 'davidhalter/jedi-vim'
-
-" Asynchronous Lint Engine
-Plug 'w0rp/ale'
+Plug 'Shougo/echodoc.vim'
+Plug 'maralla/completor.vim'  "  Auto Complete
+Plug 'w0rp/ale'  " Asynchronous Lint Engine

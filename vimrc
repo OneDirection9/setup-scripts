@@ -152,13 +152,99 @@ nnoremap bn :bn<CR>
 nnoremap bp :bp<CR>
 nnoremap bl :ls<CR>
 
+autocmd FileType python nnoremap <LocalLeader>f :0,$!yapf<CR>
+
 " ============================================================================
 " Plugins settings and mappings
+
+" airline.vim
+" -----------------------------------------------------------------------------
+" 设置主题
+" let g:airline_theme='molokai' "'bubblegum'
+" " 这个是安装字体后必须设置此项"
+" let g:airline_powerline_fonts = 1
+" 开启标签栏
+let g:airline#extensions#tabline#enabled = 1
+" 显示缓冲区编号
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" 关闭状态显示空白符号计数"
+let g:airline#extensions#whitespace#enabled = 0
+" 状态栏显示设置
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+" " powerline symbols
+" let g:airline_left_sep = ''
+" let g:airline_left_alt_sep = ''
+" let g:airline_right_sep = ''
+" let g:airline_right_alt_sep = ''
+" let g:airline_symbols.branch = ''
+" let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = '☰'
+" let g:airline_symbols.maxlinenr = ''
+
+" Window Chooser
+" -----------------------------------------------------------------------------
+nmap - <Plug>(choosewin)
+" show big letters
+let g:choosewin_overlay_enable = -1
 
 " vim-signify
 " -----------------------------------------------------------------------------
 set signcolumn=yes
 noremap <Leader>s :SignifyDiff<cr>
+
+" NERDTree.vim
+" -----------------------------------------------------------------------------
+" 设置打开关闭快捷键F3
+nmap  <F2> :NERDTreeToggle<cr>
+" 窗口美化
+let NERDChristmasTree=1
+" 自动调整光标到窗口中心
+let NERDTreeAutoCenter=1
+" 指定鼠标模式(1.双击打开;2.单目录双文件;3.单击打开)
+let NERDTreeMouseMode=2
+" 默认显示文件
+let NERDTreeShowFiles=1
+" 默认显示隐藏文件
+let NERDTreeShowHidden=1
+" 窗口位置（'left' or 'right'）
+let g:NERDTreeWinPos="left"
+" 窗口宽度
+let g:NERDTreeWinSize=30
+" 显示行号
+let g:NERDTreeShowLineNumbers=1
+" 打开文件后关闭NERDTree窗口
+" let g:NERDTreeQuitOnOpen=1
+" 高亮显示当前行目录或文件
+let NERDTreeHightCursorline=1
+" open nerdtree with the current file selected
+nmap <Leader>t :NERDTreeFind<CR>
+" don;t show these file types
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.o$']
+
+" taglist.vim
+" -----------------------------------------------------------------------------
+" 设置打开关闭快捷键F2
+nmap  <F3> :TlistToggle<cr>
+" 自动更新tags列表
+let g:Tlist_Auto_Update=1
+" 始终解析文件中的tag,不管taglist窗口有没有打开
+let g:Tlist_Process_File_Always=1
+" 当taglist窗口是最后一个窗口时退出vim
+let g:Tlist_Exit_OnlyWindow=1
+" 只显示一个文件的tags
+let g:Tlist_Show_One_File=1
+" 窗口宽度
+let g:Tlist_WinWidth=30
+" 只显示当前文件的tags
+let g:Tlist_Enable_Fold_Column=0
+" 高亮显示当前tag
+let g:Tlist_Auto_Highlight_Tag=1
+" 设置窗口显示在右侧
+let g:Tlist_Use_Right_Window=1
+" 打开时光标定位于taglist窗口
+let g:Tlist_GainFocus_On_ToggleOpen=1
 
 " LeaderF
 " -----------------------------------------------------------------------------
@@ -190,63 +276,6 @@ noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
 noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
-" echodoc.vim
-" -----------------------------------------------------------------------------
-set noshowmode
-let g:echodoc#enable_at_startup = 1
-
-" taglist.vim
-" -----------------------------------------------------------------------------
-" 设置打开关闭快捷键F2
-nmap  <F3> :TlistToggle<cr>
-" 自动更新tags列表
-let g:Tlist_Auto_Update=1
-" 始终解析文件中的tag,不管taglist窗口有没有打开
-let g:Tlist_Process_File_Always=1
-" 当taglist窗口是最后一个窗口时退出vim
-let g:Tlist_Exit_OnlyWindow=1
-" 只显示一个文件的tags
-let g:Tlist_Show_One_File=1
-" 窗口宽度
-let g:Tlist_WinWidth=30
-" 只显示当前文件的tags
-let g:Tlist_Enable_Fold_Column=0
-" 高亮显示当前tag
-let g:Tlist_Auto_Highlight_Tag=1
-" 设置窗口显示在右侧
-let g:Tlist_Use_Right_Window=1
-" 打开时光标定位于taglist窗口
-let g:Tlist_GainFocus_On_ToggleOpen=1
-
-" NERDTree.vim
-" -----------------------------------------------------------------------------
-" 设置打开关闭快捷键F3
-nmap  <F2> :NERDTreeToggle<cr>
-" 窗口美化
-let NERDChristmasTree=1
-" 自动调整光标到窗口中心
-let NERDTreeAutoCenter=1
-" 指定鼠标模式(1.双击打开;2.单目录双文件;3.单击打开)
-let NERDTreeMouseMode=2
-" 默认显示文件
-let NERDTreeShowFiles=1
-" 默认显示隐藏文件
-let NERDTreeShowHidden=1
-" 窗口位置（'left' or 'right'）
-let g:NERDTreeWinPos="left"
-" 窗口宽度
-let g:NERDTreeWinSize=30
-" 显示行号
-let g:NERDTreeShowLineNumbers=1
-" 打开文件后关闭NERDTree窗口
-" let g:NERDTreeQuitOnOpen=1
-" 高亮显示当前行目录或文件
-let NERDTreeHightCursorline=1
-" open nerdtree with the current file selected
-nmap ,t :NERDTreeFind<CR>
-" don;t show these file types
-let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.o$']
-
 " vim-preview.vim
 " -----------------------------------------------------------------------------
 " p预览 大P关闭
@@ -255,19 +284,43 @@ autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
 noremap <Leader>u :PreviewScroll -1<cr> " 往上滚动预览窗口
 noremap <Leader>d :PreviewScroll +1<cr> " 往下滚动预览窗口
 
-" Window Chooser
+" echodoc.vim
 " -----------------------------------------------------------------------------
-nmap  -  <Plug>(choosewin)
-" show big letters
-let g:choosewin_overlay_enable = -1
+set noshowmode
+let g:echodoc#enable_at_startup = 1
 
-" yapf
+" completor.vim
 " -----------------------------------------------------------------------------
-autocmd FileType python nnoremap <LocalLeader>f :0,$!yapf<CR>
+" Use TAB to complete when typing words, else inserts TABs as usual.  Uses
+" dictionary, source files, and completor to find matching words to complete.
 
-" jedi-vim
-" -----------------------------------------------------------------------------
-let g:jedi#show_call_signatures = 0
+" Note: usual completion is on <C-n> but more trouble to press all the time.
+" Never type the same word twice and maybe learn a new spellings!
+" Use the Linux dictionary when spelling is in doubt.
+function! Tab_Or_Complete() abort
+  " If completor is already open the `tab` cycles through suggested completions.
+  if pumvisible()
+    return "\<C-N>"
+  " If completor is not open and we are in the middle of typing a word then
+  " `tab` opens completor menu.
+  elseif col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^[[:keyword:][:ident:]]'
+    return "\<C-R>=completor#do('complete')\<CR>"
+  else
+    " If we aren't typing a word and we press `tab` simply do the normal `tab`
+    " action.
+    return "\<Tab>"
+  endif
+endfunction
+
+" Use `tab` key to select completions.  Default is arrow keys.
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Use tab to trigger auto completion.  Default suggests completions as you type.
+let g:completor_auto_trigger = 0
+inoremap <expr> <Tab> Tab_Or_Complete()
+
+noremap J :call completor#do('doc')<CR>
 
 " ALE.vim
 " -----------------------------------------------------------------------------
@@ -308,31 +361,5 @@ let g:ale_fixers = {
     \}
 " 关闭补全功能
 let g:ale_completion_enabled = 0
-
-" airline.vim
-" -----------------------------------------------------------------------------
-" 设置主题
-" let g:airline_theme='molokai' "'bubblegum'
-" " 这个是安装字体后必须设置此项"
-" let g:airline_powerline_fonts = 1
-" 开启标签栏
-let g:airline#extensions#tabline#enabled = 1
-" 显示缓冲区编号
-let g:airline#extensions#tabline#buffer_nr_show = 1
-" 关闭状态显示空白符号计数"
-let g:airline#extensions#whitespace#enabled = 0
-" 状态栏显示设置
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-" " powerline symbols
-" let g:airline_left_sep = ''
-" let g:airline_left_alt_sep = ''
-" let g:airline_right_sep = ''
-" let g:airline_right_alt_sep = ''
-" let g:airline_symbols.branch = ''
-" let g:airline_symbols.readonly = ''
-" let g:airline_symbols.linenr = '☰'
-" let g:airline_symbols.maxlinenr = ''
 
 colorscheme solarized
