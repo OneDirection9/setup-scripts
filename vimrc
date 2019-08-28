@@ -320,7 +320,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 let g:completor_auto_trigger = 0
 inoremap <expr> <Tab> Tab_Or_Complete()
 
-noremap J :call completor#do('doc')<CR>
+noremap K :call completor#do('doc')<CR>
 
 " ALE.vim
 " -----------------------------------------------------------------------------
