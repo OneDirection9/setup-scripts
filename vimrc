@@ -159,29 +159,17 @@ autocmd FileType python nnoremap <LocalLeader>f :0,$!yapf<CR>
 
 " airline.vim
 " -----------------------------------------------------------------------------
-" 设置主题
-" let g:airline_theme='molokai' "'bubblegum'
-" " 这个是安装字体后必须设置此项"
-" let g:airline_powerline_fonts = 1
+let g:airline_section_b = ''  " don't show anything in section b
 " 开启标签栏
 let g:airline#extensions#tabline#enabled = 1
 " 显示缓冲区编号
 let g:airline#extensions#tabline#buffer_nr_show = 1
 " 关闭状态显示空白符号计数"
-let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#whitespace#enabled = 1
 " 状态栏显示设置
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-" " powerline symbols
-" let g:airline_left_sep = ''
-" let g:airline_left_alt_sep = ''
-" let g:airline_right_sep = ''
-" let g:airline_right_alt_sep = ''
-" let g:airline_symbols.branch = ''
-" let g:airline_symbols.readonly = ''
-" let g:airline_symbols.linenr = '☰'
-" let g:airline_symbols.maxlinenr = ''
 
 " Window Chooser
 " -----------------------------------------------------------------------------
@@ -248,21 +236,30 @@ let g:Tlist_GainFocus_On_ToggleOpen=1
 
 " LeaderF
 " -----------------------------------------------------------------------------
-let g:Lf_ShortcutF = '<leader>f'
-let g:Lf_ShortcutB = '<leader>b'
-noremap <leader>m :LeaderfMru<cr>
-noremap <leader>F :LeaderfFunction<cr>
-noremap <leader>t :LeaderfTag<cr>
+" don't show the help in normal mode
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
 
 let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
 let g:Lf_WorkingDirectoryMode = 'Ac'
 let g:Lf_WindowHeight = 0.30
-let g:Lf_CacheDirectory = expand('~/.vim/cache')
 let g:Lf_ShowRelativePath = 0
-let g:Lf_HideHelp = 1
-let g:Lf_StlColorscheme = 'powerline'
 let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
+
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+
+noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+" search visually selected text literally
+xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+noremap go :<C-U>Leaderf! rg --recall<CR>
 
 let g:Lf_Gtagsconf = "/usr/local/share/gtags/gtags.conf"
 let g:Lf_Gtagslabel = 'native-pygments'
@@ -270,7 +267,6 @@ let g:Lf_GtagsAutoGenerate = 1
 
 noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
 noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
-noremap <leader>fl :<C-U><C-R>=printf("Leaderf! gtags -s %s --auto-jump", expand("<cword>"))<CR><CR>
 noremap <leader>fg :<C-U><C-R>=printf("Leaderf! gtags -g %s --auto-jump", expand("<cword>"))<CR><CR>
 noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
 noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
