@@ -19,7 +19,13 @@ Plug 'tpope/vim-surround'  " Surround
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }  " Better file browser
 Plug 'vim-scripts/taglist.vim', { 'on': 'TlistToggle' }  " Class/module browser
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-Plug 'skywind3000/vim-preview'  " Preview window
 Plug 'Shougo/echodoc.vim'
-Plug 'maralla/completor.vim'  "  Auto Complete
 Plug 'w0rp/ale'  " Asynchronous Lint Engine
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'deoplete-plugins/deoplete-jedi'

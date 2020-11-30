@@ -39,6 +39,7 @@ set fileformat=unix
 syntax on  " syntax highlight on
 set t_Co=256
 set background=dark
+colorscheme solarized
 " set cursorline  " highlight cursor line
 " highlight CursorLine cterm=Bold ctermbg=Black ctermfg=NONE guibg=Black guifg=NONE
 
@@ -174,8 +175,7 @@ endif
 " Window Chooser
 " -----------------------------------------------------------------------------
 nmap - <Plug>(choosewin)
-" show big letters
-let g:choosewin_overlay_enable = -1
+let g:choosewin_overlay_enable = -1  " show big letters
 
 " vim-signify
 " -----------------------------------------------------------------------------
@@ -273,52 +273,34 @@ noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
 noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
-" vim-preview.vim
-" -----------------------------------------------------------------------------
-" p预览 大P关闭
-autocmd FileType qf nnoremap <silent><buffer> p :PreviewQuickfix<cr>
-autocmd FileType qf nnoremap <silent><buffer> P :PreviewClose<cr>
-noremap <Leader>u :PreviewScroll -1<cr> " 往上滚动预览窗口
-noremap <Leader>d :PreviewScroll +1<cr> " 往下滚动预览窗口
-
 " echodoc.vim
 " -----------------------------------------------------------------------------
 set noshowmode
-let g:echodoc#enable_at_startup = 1
+let g:echodoc#enable_at_startup = 1  " show arguments in command line
 
-" completor.vim
+" deoplete.nvim
 " -----------------------------------------------------------------------------
-" Use TAB to complete when typing words, else inserts TABs as usual.  Uses
-" dictionary, source files, and completor to find matching words to complete.
-
-" Note: usual completion is on <C-n> but more trouble to press all the time.
-" Never type the same word twice and maybe learn a new spellings!
-" Use the Linux dictionary when spelling is in doubt.
-function! Tab_Or_Complete() abort
-  " If completor is already open the `tab` cycles through suggested completions.
-  if pumvisible()
-    return "\<C-N>"
-  " If completor is not open and we are in the middle of typing a word then
-  " `tab` opens completor menu.
-  elseif col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^[[:keyword:][:ident:]]'
-    return "\<C-R>=completor#do('complete')\<CR>"
-  else
-    " If we aren't typing a word and we press `tab` simply do the normal `tab`
-    " action.
-    return "\<Tab>"
-  endif
+let g:deoplete#enable_at_startup = 1
+" Using <TAB> to select suggestions
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ deoplete#manual_complete()
+function! s:check_back_space() abort "{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1] =~ '\s'
+endfunction"}}}
+" avoid click ESC twice to exit inter mode
+let g:AutoClosePumvisible = {"ENTER": "<C-Y>", "ESC": "<ESC>"}
+" using ENTER to select suggestions
+inoremap <silent><expr><CR> <SID>smart_carriage_return()
+function s:smart_carriage_return()
+   if !pumvisible() || get(complete_info(), 'selected', -1) < 0
+      return "\<CR>"
+   else
+      return "\<C-y>"
+   endif
 endfunction
-
-" Use `tab` key to select completions.  Default is arrow keys.
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
-
-" Use tab to trigger auto completion.  Default suggests completions as you type.
-let g:completor_auto_trigger = 0
-inoremap <expr> <Tab> Tab_Or_Complete()
-
-noremap K :call completor#do('doc')<CR>
 
 " ALE.vim
 " -----------------------------------------------------------------------------
@@ -359,5 +341,3 @@ let g:ale_fixers = {
     \}
 " 关闭补全功能
 let g:ale_completion_enabled = 0
-
-colorscheme solarized
