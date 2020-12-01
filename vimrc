@@ -280,7 +280,8 @@ let g:echodoc#enable_at_startup = 1  " show arguments in command line
 
 " deoplete.nvim
 " -----------------------------------------------------------------------------
-let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
 " Using <TAB> to select suggestions
 inoremap <silent><expr> <TAB>
   \ pumvisible() ? "\<C-n>" :
