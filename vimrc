@@ -267,6 +267,8 @@ let g:Lf_Gtagslabel = 'native-pygments'
 let g:Lf_GtagsAutoGenerate = 0
 noremap <leader>fu :Leaderf gtags --update<CR>
 
+noremap <leader>fx :Leaderf function<CR>
+
 noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
 noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
 noremap <leader>fg :<C-U><C-R>=printf("Leaderf! gtags -g %s --auto-jump", expand("<cword>"))<CR><CR>
