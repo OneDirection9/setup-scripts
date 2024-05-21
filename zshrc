@@ -109,6 +109,9 @@ source $ZSH/oh-my-zsh.sh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
 
 bindkey '^ ' autosuggest-accept
+bindkey '^f' forward-word
+bindkey '^ ' backward-word
+
 
 HIST_STAMPS="yyyy-mm-dd"
 
