@@ -41,7 +41,8 @@ set fileformat=unix
 syntax on  " syntax highlight on
 set t_Co=256
 set background=dark
-colorscheme solarized
+" colorscheme solarized
+
 " set cursorline  " highlight cursor line
 " highlight CursorLine cterm=Bold ctermbg=Black ctermfg=NONE guibg=Black guifg=NONE
 
