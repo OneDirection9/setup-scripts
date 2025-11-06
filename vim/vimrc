@@ -372,11 +372,12 @@ call signature_help#enable()
 " DDC Key Mappings for Popup
 " -----------------------------------------------------------------------------
 " Use Up/Down arrows to move selection in popup menu
-inoremap <silent> <Down>  <C-r>=pum#map#select_relative(1)<CR>
-inoremap <silent> <Up>    <C-r>=pum#map#select_relative(-1)<CR>
-
-" Enter to confirm completion
-inoremap <silent> <CR>    <C-r>=pum#map#confirm()<CR>
+inoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
+inoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
+inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
+inoremap <PageUp>   <Cmd>call pum#map#insert_relative_page(-1)<CR>
 
 " if you use with vim-lsp, disable vim-lsp's signature help feature
 let g:lsp_signature_help_enabled = 0
