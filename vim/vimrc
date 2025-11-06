@@ -285,67 +285,99 @@ noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 set noshowmode
 let g:echodoc#enable_at_startup = 1  " show arguments in command line
 
-" deoplete.nvim
-" -----------------------------------------------------------------------------
-let g:deoplete#enable_at_startup = 0
-autocmd InsertEnter * call deoplete#enable()
-" Using <TAB> to select suggestions
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ deoplete#manual_complete()
-function! s:check_back_space() abort "{{{
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1] =~ '\s'
-endfunction"}}}
-" avoid click ESC twice to exit inter mode
-let g:AutoClosePumvisible = {"ENTER": "<C-Y>", "ESC": "<ESC>"}
-" using ENTER to select suggestions
-inoremap <silent><expr><CR> <SID>smart_carriage_return()
-function s:smart_carriage_return()
-   if !pumvisible() || get(complete_info(), 'selected', -1) < 0
-      return "\<CR>"
-   else
-      return "\<C-y>"
-   endif
+if executable('pylsp')
+    " pip install python-lsp-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pylsp',
+        \ 'cmd': {server_info->['pylsp']},
+        \ 'allowlist': ['python'],
+        \ })
+endif
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+
+    " refer to doc to add more commands
 endfunction
 
-" ALE.vim
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+
+" ============================================================================
+" DDC (Dynamic Completion)
+" ============================================================================
+call ddc#custom#patch_global('ui', 'pum')
+
+call ddc#custom#patch_global('sources', ['lsp', 'around', 'buffer', 'file'])
+call ddc#custom#patch_global('sourceOptions', #{
+      \ _: #{
+      \   matchers: ['matcher_head'],
+      \   isVolatile: v:true,
+      \ },
+      \ lsp: #{
+      \   mark: 'LSP',
+      \   isVolatile: v:true,
+      \   forceCompletionPattern: '\.\w*|:\w*|->\w*',
+      \ },
+      \ file: #{
+      \   mark: 'F',
+      \   isVolatile: v:true,
+	  \   forceCompletionPattern: '\S/\S*',
+      \ },
+      \ buffer: #{
+      \   mark: 'B',
+      \ },
+      \ })
+
+call ddc#custom#patch_global('sourceParams', #{
+      \ lsp: #{
+      \   lspEngine: 'vim-lsp',
+      \   snippetEngine: denops#callback#register({body -> vsnip#anonymous(body)}),
+      \   enableResolveItem: v:true,
+      \   enableAdditionalTextEdit: v:true,
+      \ },
+      \ buffer: #{
+      \   requireSameFiletype: v:false,
+      \   limitBytes: 5000000,
+      \   fromAltBuf: v:true,
+      \   forceCollect: v:true,
+      \ },
+      \ })
+
+call ddc#enable()
+call popup_preview#enable()
+call signature_help#enable()
+
+" ============================================================================
+" DDC Key Mappings for Popup
 " -----------------------------------------------------------------------------
-let g:ale_set_highlights = 0  " 禁用高亮显示
-let g:ale_fix_on_save = 1
+" Use Up/Down arrows to move selection in popup menu
+inoremap <silent> <Down>  <C-r>=pum#map#select_relative(1)<CR>
+inoremap <silent> <Up>    <C-r>=pum#map#select_relative(-1)<CR>
 
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '⚠'
-let g:ale_echo_msg_error_str = '✹ Error'
-let g:ale_echo_msg_warning_str = '⚠ Warning'
-" 使能airline状态栏扩展
-let g:airline#extensions#ale#enabled = 1
-let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
-" 错误警告消息格式
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" Enter to confirm completion
+inoremap <silent> <CR>    <C-r>=pum#map#confirm()<CR>
 
-let g:ale_completion_delay = 500
-let g:ale_echo_delay = 20
-let g:ale_lint_delay = 500
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-"普通模式下警告跳转快捷键
-nmap <silent> <Leader>p <Plug>(ale_previous_wrap)
-nmap <silent> <Leader>n <Plug>(ale_next_wrap)
-"<Leader>x触发/关闭语法检查
-nmap <Leader>x :ALEToggle<CR>
-"<Leader>y查看错误或警告的详细信息
-nmap <Leader>y :ALEDetail<CR>
-" 指定对应语言的检查工具
-let g:ale_linters = {
-            \   'c++': ['clang'],
-            \   'c': ['clang'],
-            \   'python': ['pylint'],
-            \   'go': ['gofmt', 'golint'],
-            \}
-let g:ale_fixers = {
-    \  '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \}
-" 关闭补全功能
-let g:ale_completion_enabled = 0
+" if you use with vim-lsp, disable vim-lsp's signature help feature
+let g:lsp_signature_help_enabled = 0
+let g:lsp_diagnostics_enabled = 0

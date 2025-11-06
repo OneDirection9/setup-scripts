@@ -14,17 +14,48 @@ Plug 't9md/vim-choosewin'  " Window chooser
 Plug 'mhinz/vim-signify'  " Diff
 Plug 'tpope/vim-surround'  " Surround
 
-" Improved
+" File/Code Navigation
 " -----------------------------------------------------------------------------
 Plug 'scrooloose/nerdtree'  " Better file browser
 Plug 'vim-scripts/taglist.vim'  " Class/module browser
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'Shougo/echodoc.vim'
-Plug 'w0rp/ale'  " Asynchronous Lint Engine
 
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'deoplete-plugins/deoplete-jedi'
+" Denops Core (async & UI for Vim/Neovim)
+" -----------------------------------------------------------------------------
+Plug 'vim-denops/denops.vim'
+
+" DDC (Completion)
+" -----------------------------------------------------------------------------
+Plug 'Shougo/ddc.vim'
+Plug 'Shougo/ddc-ui-pum'
+Plug 'Shougo/pum.vim'
+
+" DDC Sources
+" -----------------------------------------------------------------------------
+Plug 'Shougo/ddc-source-lsp'
+Plug 'Shougo/ddc-source-around'
+Plug 'LumaKernel/ddc-source-file'
+Plug 'matsui54/ddc-source-buffer'
+
+" DDC Filters
+" -----------------------------------------------------------------------------
+Plug 'Shougo/ddc-filter-matcher_head'
+
+" Snippets
+" -----------------------------------------------------------------------------
+Plug 'hrsh7th/vim-vsnip'
+
+" LSP and Python Tools
+" -----------------------------------------------------------------------------
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'dense-analysis/ale'
+
+" Popup window
+" -----------------------------------------------------------------------------
+Plug 'matsui54/denops-popup-preview.vim'
+Plug 'matsui54/denops-signature_help'
+
 
 Plug 'dracula/vim', { 'as': 'dracula' }
