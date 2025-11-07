@@ -157,7 +157,7 @@ nnoremap bn :bn<CR>
 nnoremap bp :bp<CR>
 nnoremap bl :ls<CR>
 
-autocmd FileType python nnoremap <LocalLeader>f :0,$!yapf<CR>
+autocmd FileType python nnoremap <LocalLeader>l :0,$!yapf<CR>
 
 " ============================================================================
 " Plugins settings and mappings
@@ -308,8 +308,8 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
     nmap <buffer> K <plug>(lsp-hover)
-    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+    nnoremap <buffer> <expr><LocalLeader>f lsp#scroll(+4)
+    nnoremap <buffer> <expr><LocalLeader>d lsp#scroll(-4)
 
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
@@ -379,9 +379,9 @@ inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
 inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
 inoremap <PageUp>   <Cmd>call pum#map#insert_relative_page(-1)<CR>
 
-inoremap <buffer> <expr><c-f> popup_preview#scroll(+4)
-inoremap <buffer> <expr><c-d> popup_preview#scroll(-4)
-
 " if you use with vim-lsp, disable vim-lsp's signature help feature
 let g:lsp_signature_help_enabled = 0
 let g:lsp_diagnostics_enabled = 0
+
+inoremap <buffer> <expr><c-f> popup_preview#scroll(+4)
+inoremap <buffer> <expr><c-d> popup_preview#scroll(-4)
