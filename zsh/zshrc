@@ -108,10 +108,16 @@ export LANG=en_US.UTF-8
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 
+# zsh-autosuggestions config
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
 bindkey '^ ' autosuggest-fetch
 bindkey '^f' forward-word
 bindkey '^b' backward-word
+
+# zsh-history-substring-search config
+bindkey '^[OA' history-substring-search-up
+bindkey '^[OB' history-substring-search-down
+HISTORY_SUBSTRING_SEARCH_FUZZY=1
 
 bindkey '^U' backward-kill-line
 
