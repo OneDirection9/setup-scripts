@@ -126,3 +126,11 @@ HIST_STAMPS="yyyy-mm-dd"
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # source ~/.bashrc
 quote
+
+# Add timestamp to the prompt
+PROMPT='%{$fg_bold[green]%}➜% %{$fg_bold[green]%} [%D{%L:%M:%S}]% ${ret_status}%{$fg_bold[green]%}%p %{$fg[cyan]%}%c %{$fg_bold[blue]%}$(git_prompt_info)%{$reset_color%}'
+# TMOUT=1
+# TRAPALRM() {
+#     zle reset-prompt
+# }
+
