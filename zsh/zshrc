@@ -78,6 +78,7 @@ plugins=(
     extract
     rand-quote
     zsh-history-substring-search
+    fzf  # brew install fzf
 )
 
 source $ZSH/oh-my-zsh.sh
