@@ -77,7 +77,7 @@ plugins=(
     z
     extract
     rand-quote
-    # zsh-history-substring-search
+    zsh-history-substring-search
     fzf  # brew install fzf
 )
 
@@ -117,9 +117,9 @@ bindkey '^f' forward-word
 bindkey '^b' backward-word
 
 # zsh-history-substring-search config
-# bindkey '^[OA' history-substring-search-up
-# bindkey '^[OB' history-substring-search-down
-# HISTORY_SUBSTRING_SEARCH_FUZZY=1
+bindkey '^[OA' history-substring-search-up
+bindkey '^[OB' history-substring-search-down
+HISTORY_SUBSTRING_SEARCH_FUZZY=1
 
 bindkey '^U' backward-kill-line
 
